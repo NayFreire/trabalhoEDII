@@ -77,4 +77,5 @@ void main(){
 
   mergeSort(vetor, inicio, meio);
   mergeSort(vetor, meio + 1, fim);
+  
 }
