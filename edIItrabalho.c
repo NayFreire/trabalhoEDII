@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#define n 100
+#define n 510000
 
 #include "ListaEncadeada.h"
 #include "OrdenaMerge.h"
@@ -18,34 +18,34 @@ void main(){
     FILE *fileList;
 
     srand(time(NULL));
-
-    for(int i=0;i<n;i++){
-        vetor[i] = rand()%1000;
+	int i;
+    for(i=0;i<n;i++){
+        vetor[i] = rand()%1000000;
     }
-    printf("\nINICIO DO VETOR DESORDENADO\n");
-    for(int i=0;i<n;i++){
-        printf("%d\n", vetor[i]);
+    //printf("\nINICIO DO VETOR DESORDENADO\n");
+    for(i=0;i<n;i++){
+        //printf("[%d] = %d\n",i, vetor[i]);
     }
-    printf("\nFIM DO VETOR DESORDENADO\n");
+    //printf("\nFIM DO VETOR DESORDENADO\n");
 
     gettimeofday(&comeco, NULL);
     mergeSort(vetor, inicio, fim);
     gettimeofday(&final, NULL);
 
-    printf("\n*** Ordenado ***\n");
-    for(int i=0;i<n;i++){
-        printf("%d\n", vetor[i]);
+    //printf("\n*** Ordenado ***\n");
+    for(i=0;i<n;i++){
+        //printf("%d\n", vetor[i]);
     }
 
-    criaLista();
-    for(int i=0;i<10;i++){
-        insereInicio(rand()%1000);
+    /*criaLista();
+    for(i=0;i<10;i++){
+        insereInicio(rand()%1000000);
     }
-    imprimeLista();
     //Elemento *listaD = imprimeListaEncadeada();
     //mergeSortLista(listaD, 0, tamanho-1);
     imprimeListaD();
+    imprimeListaE();*/
 
-    printf("Comparacoes: %d\n", counter);
-    printf("Tempo de processamento: %ld microsegundos\n\n", ((final.tv_sec - comeco.tv_sec)*1000000L+final.tv_usec) - comeco.tv_usec);
+    printf("Número de valores: %d \nComparacoes: %d\n", n, counter);
+    printf("Tempo de processamento do vetor: %ld microsegundos\n\n", ((final.tv_sec - comeco.tv_sec)*1000000L+final.tv_usec) - comeco.tv_usec);
 }

@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
+
+#define max 100000
+#define _BSD_SOURCE
 
 //#include "OrdenaMergeLista.h"
+
+struct timeval begin, end;
 
 typedef struct elemento Elemento;
 struct elemento {
@@ -143,18 +150,24 @@ void mergeLista (Elemento *elementos, long int p, long int q, long int r){
 	
 	n1 = q-p+1;
 	n2 = r-q;
-	
+	/*while(elementos){
+		printf("*%d\n",elementos->valor);
+		elementos = elementos->proximo;
+	}*/
+	//printf("n1: %d, n2: %d, p: %ld, q: %ld, r: %ld\n", n1, n2, p, q, r);
 	Elemento *listaEsq ,*listaDir;
 	
-	listaEsq = (Elemento*) malloc(sizeof(Elemento)*(n1+1));
-	listaDir = (Elemento*) malloc(sizeof(Elemento)*(n2+1));
+	//listaEsq = malloc(sizeof(Elemento)*(n1+1));
+	//listaDir = malloc(sizeof(Elemento)*(n2+1));
 	
 	for(i=0;i<=n1-1;i++){
 		listaEsq[i] = elementos[p+i];
+		printf(">>esq[%d] = %d\n", i, listaEsq[i].valor);
 	}
 	
 	for(j=0;j<=n2-1;j++){
 		listaDir[j] = elementos[q+1+j];
+		printf(">>dir[%d] = %d\n", j, listaDir[j].valor);
 	}
 		
 	/*listaEsq[n1].valor = INT_MAX;
@@ -174,32 +187,88 @@ void mergeLista (Elemento *elementos, long int p, long int q, long int r){
 	}
 }
 
+int merge2(int v[n], int ini, int meio, int fim, int aux[n]){
+	int i=ini,j=meio+1,k=0,cont=0; 
+	while(i<=meio && j<=fim){
+		if(v[i] <= v[j]){
+			aux[k++] = v[i++];
+			cont++;
+		}else{
+			aux[k++] = v[j++];
+			cont++;
+		}
+	}
+	while(i<=meio)
+	aux[k++] = v[i++];
+	while(j<=fim)
+	aux[k++] = v[j++];
+	for(i=ini, k=0 ; i<= fim; i++, k++) 
+	v[i]=aux[k];
+	return cont;
+}
+
+int mergeSort2(int v[],int ini, int fim, int aux[]){
+	int meio = (fim+ini)/2;
+	int cont;
+	if(ini < fim){
+		mergeSort2(v,ini,meio,aux);
+		mergeSort2(v,meio+1,fim,aux);
+		cont=merge2(v,ini,meio,fim,aux);
+	}
+	return cont;
+}
+
 void mergeSortLista (Elemento *elementos, long int p, long int r){ 
 	long int q = 0;
 	//Elemento *aux = (Elemento*)malloc(sizeof(Elemento));
-	while(elementos){
+	/*while(elementos){
 		printf("*%d\n",elementos->valor);
 		elementos = elementos->proximo;
-	}
+	}*/
 
-	printf("%ld %ld", p, r);
+	printf("%ld %ld\n", p, r);
 	if(p<r){
-		printf("entrou");
 		q = (p+r)/2;
+		printf("entrou q=%d\n", q);
 		mergeSortLista(elementos,p,q);
 		mergeSortLista(elementos,q+1,r);
 		mergeLista(elementos,p,q,r);
 	}
 }
 
+/*void imprime(lista *l){
+    no *nodo=l->head;
+    int i;
+    printf("\n\n");
+    for(i=0;i<l->Nnos;i++){
+        printf("\t[%d]",nodo->info);
+        nodo=nodo->next;
+    }
+    /*printf("\n\n");
+    nodo=l->head;
+    for(i=0;i<l->Nnos;i++){
+        printf("\t[%d]",nodo->id);
+        nodo=nodo->next;
+    }*/
+    //printf("\n\n");
+//}*
+
 //Função para imprimir a lista:
 void imprimeListaD() {
+	int v[n];
+	int aux[n];
 	Elemento *atual;
 	atual = inicio;
-	mergeSortLista(atual, 0, tamanho-1);
+	
+	gettimeofday(&begin, NULL);
+	//mergeSortLista(atual, 0, tamanho-1);
+	mergeSort2(v,0,tamanho - 1,aux);
+    gettimeofday(&end, NULL);
+    
+    printf("Tempo de processamento da lista duplamente encadeada: %ld microsegundos\n\n", ((end.tv_sec - begin.tv_sec)*1000000L+end.tv_usec) - begin.tv_usec);
 }
 
-void imprimeLista() {
+void imprimeListaE() {
 	Elemento *atual;
 	atual = inicio;
 	while(atual){
