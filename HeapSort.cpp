@@ -80,8 +80,6 @@ int heapSort(elemento *vetor){
 int main(){
 	
 	FILE *fileList;
-	clock_t Ticks;
-	Ticks = clock();
 	char result;
 	
 	int i;
