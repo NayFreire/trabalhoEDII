@@ -4,7 +4,7 @@
 #include <string.h>
 #include <sys/time.h>
 
-#define TAM 1000
+#define TAM 100000
 #define _BSD_SOURCE
 
 //Criando uma struct para os nós da lista duplamente encadeada, contendo o valor e o seu id
@@ -169,7 +169,7 @@ int main(int argc,char *argv[]){
 	char result;  
     int e, i , contador;
   	for(i=0;i<TAM;i++){
-		e = rand()%10000;
+		e = rand()%1000000;
     	insere(list, e);
     }   
     
@@ -179,7 +179,7 @@ int main(int argc,char *argv[]){
     printf("Operacoes:\n");
     printf("%d\n", contador);
     fclose(fileList);
-    fileList = fopen( "mergeLista1000.txt", "wt");
+    fileList = fopen( "mergeLista10000.txt", "wt");
     if (fileList != NULL) {
          
         if (result == EOF)
